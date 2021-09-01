@@ -5,7 +5,7 @@ import { Link, useHistory } from "react-router-dom";
 function CreateDeck() {
   const history = useHistory();
   return (
-    <>
+    <div>
       <h2>
         <Link to="/">Home</Link> / Create Deck
       </h2>
@@ -27,7 +27,7 @@ function CreateDeck() {
         <button onClick={() => history.push("/")}>Cancel</button>
         <button>Submit</button>
       </form>
-    </>
+    </div>
   );
 }
 

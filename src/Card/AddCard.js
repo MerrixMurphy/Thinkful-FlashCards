@@ -13,7 +13,7 @@ function AddCard({ currentDeck, setCurrentDeck }) {
   }, []);
 
   return (
-    <>
+    <div>
       <h2>
         <Link to="/">Home</Link> / <Link>{currentDeck.name}</Link> / Add Card
       </h2>
@@ -35,7 +35,7 @@ function AddCard({ currentDeck, setCurrentDeck }) {
         <button onClick={() => history.push("/")}>Done</button>
         <button>Submit</button>
       </form>
-    </>
+    </div>
   );
 }
 

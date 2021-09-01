@@ -45,7 +45,7 @@ function Home() {
   };
 
   return (
-    <>
+    <div>
       <button onClick={navigation} id="createDeck">
         Create Deck
       </button>
@@ -65,7 +65,7 @@ function Home() {
           </button>
         </div>
       ))}
-    </>
+    </div>
   );
 }
 

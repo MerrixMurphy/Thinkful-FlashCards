@@ -1,8 +1,3 @@
-// The Study screen has the following features:
-
-// You must use the readDeck() function from src/utils/api/index.js to load the deck that is being studied.
-// There is a breadcrumb navigation bar with links to home /, followed by the name of the deck being studied and finally the text Study (e.g., Home/Rendering In React/Study).
-// The deck title (i.e., "Study: Rendering in React" ) is shown on the screen.
 // Cards are shown one at a time, front-side first.
 // A button at the bottom of each card "flips" it to the other side.
 // After flipping the card, the screen shows a next button (see the "Next button" section below) to continue to the next card.
@@ -21,10 +16,46 @@
 // Not enough cards
 // Studying a Deck with two or fewer cards should display a "Not enough cards" message and a button to add cards to the deck.
 // Clicking the "Add Cards" button should take the user to the Add Card screen.
-import React from "react";
+import React, { useEffect } from "react";
+import { Link, useHistory } from "react-router-dom";
+import { readDeck } from "../utils/api";
 
-function Study() {
-  return <h1>Hi</h1>;
+function Study({ currentDeck, setCurrentDeck }) {
+  const history = useHistory();
+
+  useEffect(() => {
+    readDeck(currentDeck.id).then();
+  });
+
+  return (
+    <div>
+      <h2>
+        <Link to="/">Home</Link> / <Link>{currentDeck.name}</Link> / Study
+      </h2>
+      <h1>Study: {currentDeck.name}</h1>
+      {false ? (
+        <div>
+          <h2>
+            Cards: {""} of {""}
+          </h2>{" "}
+          <p>{""}</p>
+          <button>Flip</button>
+        </div>
+      ) : (
+        <div>
+          <h2>Not enough cards.</h2>{" "}
+          <p>
+            You need at least 3 cards to study. There are {"num"} in this deck.
+          </p>
+          <button
+            onClick={() => history.push(`/decks/${currentDeck.id}/cards/new`)}
+          >
+            Add Cards
+          </button>
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default Study;

@@ -19,7 +19,7 @@ function EditCard({ currentDeck, setCurrentDeck }) {
   }, []);
 
   return (
-    <>
+    <div>
       <h2>
         <Link to="/">Home</Link> / <Link>{currentDeck.name}</Link> / Edit Card{" "}
         {"1"}
@@ -38,7 +38,7 @@ function EditCard({ currentDeck, setCurrentDeck }) {
         <button onClick={() => history.push("/")}>Cancel</button>
         <button onClick={() => history.push("/")}>Save</button>
       </form>
-    </>
+    </div>
   );
 }
 

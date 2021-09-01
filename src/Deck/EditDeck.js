@@ -13,9 +13,10 @@ function EditDeck({ currentDeck, setCurrentDeck }) {
   }, []);
 
   return (
-    <>
+    <div>
       <h2>
-        <Link to="/">Home</Link> / <Link>{currentDeck.name}</Link> / Edit Deck
+        <Link to="/">Home</Link> /{" "}
+        <Link to="/decks/:deckId">{currentDeck.name}</Link> / Edit Deck
       </h2>
       <h1>Edit Deck</h1>
       <form>
@@ -35,7 +36,7 @@ function EditDeck({ currentDeck, setCurrentDeck }) {
         <button onClick={() => history.push("/")}>Cancel</button>
         <button>Submit</button>
       </form>
-    </>
+    </div>
   );
 }
 

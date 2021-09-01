@@ -8,12 +8,13 @@ import EditDeck from "../Deck/EditDeck";
 import Study from "./Study";
 import AddCard from "../Card/AddCard";
 import EditCard from "../Card/EditCard";
+import Deck from "../Deck/Deck";
 
 function Layout() {
   const [currentDeck, setCurrentDeck] = useState([]);
 
   return (
-    <>
+    <div>
       <Header />
       <div className="container">
         <Switch>
@@ -30,7 +31,10 @@ function Layout() {
             />
           </Route>
           <Route path="/decks/:deckId/study">
-            <Study />
+            <Study currentDeck={currentDeck} setCurrentDeck={setCurrentDeck} />
+          </Route>
+          <Route path="/decks/:deckId">
+            <Deck />
           </Route>
           <Route path="/decks/:deckId/cards/new">
             <AddCard
@@ -46,7 +50,7 @@ function Layout() {
           </Route>
         </Switch>
       </div>
-    </>
+    </div>
   );
 }
 
