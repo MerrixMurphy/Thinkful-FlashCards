@@ -2,26 +2,26 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { listDecks } from "../utils/api";
 import { listCards } from "../utils/api";
-// Existing decks are each shown with the deck name, the number of cards, and a “Study,” “View,” and “Delete” button.
-// Clicking the “Delete” button shows a warning message before deleting the deck.
+import { deleteDeck } from "../utils/api";
 
-// Delete Deck prompt
-// When the user clicks the "Delete" button, a warning message is shown and the user can click "OK" or "Cancel". If the user clicks "OK", the deck is deleted and the deleted deck is no longer visible on the Home screen.
+// Existing decks are each shown with the number of cards
 
-// You can use window.confirm() to create the modal dialog shown in the screenshot below.
+// If the user clicks "OK", the deck is deleted and the deleted deck is no longer visible on the Home screen.
+
 function Home() {
   const history = useHistory();
   const [decks, setDecks] = useState([]);
   const [cards, setCards] = useState([]);
-  let cardId = null;
+  const [delDeck, setDelDeck] = useState(null);
 
   useEffect(() => {
     listDecks().then(setDecks);
   }, []);
 
-  useEffect(() => {
-    listCards().then(setCards);
-  }, []);
+  function listDeckCards(deckId) {
+    // listCards(deckId).then(setCards);
+    // return cards.length;
+  }
 
   const navigation = (event) => {
     const butVal = event.target.value;
@@ -39,6 +39,17 @@ function Home() {
     }
   };
 
+  const deleteDeck = (event) => {
+    if (
+      window.confirm("Delete this deck? You will not be able to recover it.")
+    ) {
+      setDelDeck(event.target.value);
+    }
+  };
+  //   useEffect(() => {
+  //     deleteDeck(delDeck);
+  //   }, [deleteDeck]);
+
   return (
     <>
       <button onClick={navigation} value="createDeck">
@@ -47,7 +58,7 @@ function Home() {
       {decks.map((deck) => (
         <div>
           <h1>{deck.name}</h1>
-          <p> cards</p>
+          <p>{listDeckCards(deck.id)} cards</p>
           <p>{deck.description}</p>
           <button onClick={navigation} value="edit">
             Edit
@@ -55,7 +66,9 @@ function Home() {
           <button onClick={navigation} value="study">
             Study
           </button>
-          <button>Delete</button>
+          <button onClick={deleteDeck} value={deck.id}>
+            Delete
+          </button>
         </div>
       ))}
     </>

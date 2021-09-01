@@ -1,15 +1,34 @@
-// The Create Deck screen has the following features:
-
-// There is a breadcrumb navigation bar with a link to home / followed by the text Create Deck (i.e., Home/Create Deck).
-// A form is shown with the appropriate fields for creating a new deck.
-// The name field is an <input> field of type text.
-// The description field is a <textarea> field that can be multiple lines of text.
 // If the user clicks "submit", the user is taken to the Deck screen.
-// If the user clicks "cancel", the user is taken to the Home screen.
 import React from "react";
+import { Link, useHistory } from "react-router-dom";
 
 function CreateDeck() {
-  return <h1>Hi</h1>;
+  const history = useHistory();
+  return (
+    <>
+      <h2>
+        <Link to="/">Home</Link> / Create Deck
+      </h2>
+      <h1>Create Deck</h1>
+      <form>
+        <label for="deckName">Name</label>
+        <input
+          id="deckName"
+          name="deckName"
+          placeholder="Deck Name"
+          type="text"
+        ></input>
+        <label for="deckDes">Description</label>
+        <textarea
+          id="deckDes"
+          name="deckDes"
+          placeholder="Brief description of the deck"
+        ></textarea>
+        <button onClick={() => history.push("/")}>Cancel</button>
+        <button>Submit</button>
+      </form>
+    </>
+  );
 }
 
 export default CreateDeck;
