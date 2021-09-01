@@ -12,19 +12,17 @@ function Home() {
   const history = useHistory();
   const [decks, setDecks] = useState([]);
   const [cards, setCards] = useState([]);
-  const [delDeck, setDelDeck] = useState(null);
 
   useEffect(() => {
     listDecks().then(setDecks);
   }, []);
 
-  function listDeckCards(deckId) {
-    // listCards(deckId).then(setCards);
-    // return cards.length;
-  }
+  useEffect(() => {
+    listCards(1).then(setCards);
+  }, []);
 
   const navigation = (event) => {
-    const butVal = event.target.value;
+    const butVal = event.target.id;
     switch (butVal) {
       case `createDeck`:
         history.push("/decks/new");
@@ -39,34 +37,31 @@ function Home() {
     }
   };
 
-  const deleteDeck = (event) => {
+  const delThisDeck = (event) => {
     if (
       window.confirm("Delete this deck? You will not be able to recover it.")
     ) {
-      setDelDeck(event.target.value);
+      console.log(event.target.value);
     }
   };
-  //   useEffect(() => {
-  //     deleteDeck(delDeck);
-  //   }, [deleteDeck]);
 
   return (
     <>
-      <button onClick={navigation} value="createDeck">
+      <button onClick={navigation} id="createDeck">
         Create Deck
       </button>
       {decks.map((deck) => (
         <div>
           <h1>{deck.name}</h1>
-          <p>{listDeckCards(deck.id)} cards</p>
+          <p>{cards.length} cards</p>
           <p>{deck.description}</p>
-          <button onClick={navigation} value="edit">
+          <button onClick={navigation} id="edit">
             Edit
           </button>
-          <button onClick={navigation} value="study">
+          <button onClick={navigation} id="study">
             Study
           </button>
-          <button onClick={deleteDeck} value={deck.id}>
+          <button onClick={delThisDeck} value={deck.id}>
             Delete
           </button>
         </div>

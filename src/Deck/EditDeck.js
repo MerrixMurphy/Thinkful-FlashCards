@@ -1,14 +1,42 @@
-// The Edit Deck screen has the following features:
+// The user can update the form and figure out the param for useEffect.
 
-// You must use the readDeck() function from src/utils/api/index.js to load the existing deck.
-// There is a breadcrumb navigation bar with a link to home /, followed by the name of the deck being edited, and finally the text Edit Deck (e.g., Home/Rendering in React/Edit Deck).
-// It displays the same form as the Create Deck screen, except it is pre-filled with information for the existing deck.
-// The user can edit and update the form.
-// If the user clicks "Cancel", the user is taken to the Deck screen.
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { readDeck } from "../utils/api";
+import { Link, useHistory } from "react-router-dom";
 
 function EditDeck() {
-  return <h1>Hi</h1>;
+  const history = useHistory();
+  const [currentDeck, setCurrentDeck] = useState([]);
+
+  useEffect(() => {
+    readDeck(1).then(setCurrentDeck);
+  }, []);
+
+  return (
+    <>
+      <h2>
+        <Link to="/">Home</Link> / <Link>{currentDeck.name}</Link> / Edit Deck
+      </h2>
+      <h1>Edit Deck</h1>
+      <form>
+        <label for="deckName">Name</label>
+        <input
+          id="deckName"
+          name="deckName"
+          defaultValue={currentDeck.name}
+          type="text"
+        ></input>
+        <label for="deckDes">Description</label>
+        <textarea
+          id="deckDes"
+          name="deckDes"
+          defaultValue={currentDeck.description}
+        ></textarea>
+        <button onClick={() => history.push("/")}>Cancel</button>
+        <button>Submit</button>
+      </form>
+    </>
+  );
 }
 
 export default EditDeck;
