@@ -6,8 +6,12 @@ import Home from "./Home";
 import CreateDeck from "../Deck/CreateDeck";
 import EditDeck from "../Deck/EditDeck";
 import Study from "./Study";
+import AddCard from "../Card/AddCard";
+import EditCard from "../Card/EditCard";
 
 function Layout() {
+  const [currentDeck, setCurrentDeck] = useState([]);
+
   return (
     <>
       <Header />
@@ -20,10 +24,22 @@ function Layout() {
             <CreateDeck />
           </Route>
           <Route path="/decks/:deckId/edit">
-            <EditDeck />
+            <EditDeck
+              currentDeck={currentDeck}
+              setCurrentDeck={setCurrentDeck}
+            />
           </Route>
           <Route path="/decks/:deckId/study">
             <Study />
+          </Route>
+          <Route path="/decks/:deckId/cards/new">
+            <AddCard
+              currentDeck={currentDeck}
+              setCurrentDeck={setCurrentDeck}
+            />
+          </Route>
+          <Route path="/decks/:deckId/cards/:cardId/edit">
+            <EditCard />
           </Route>
           <Route>
             <NotFound />

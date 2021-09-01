@@ -1,12 +1,11 @@
 // The user can update the form and figure out the param for useEffect.
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { readDeck } from "../utils/api";
 import { Link, useHistory } from "react-router-dom";
 
-function EditDeck() {
+function EditDeck({ currentDeck, setCurrentDeck }) {
   const history = useHistory();
-  const [currentDeck, setCurrentDeck] = useState([]);
 
   useEffect(() => {
     readDeck(1).then(setCurrentDeck);

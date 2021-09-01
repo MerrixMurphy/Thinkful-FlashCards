@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
-import { listDecks } from "../utils/api";
-import { listCards } from "../utils/api";
-import { deleteDeck } from "../utils/api";
+import { listDecks, listCards, deleteDeck } from "../utils/api";
 
 // Existing decks are each shown with the number of cards
 
