@@ -1,14 +1,15 @@
-// The user can update the form and figure out the param for useEffect.
+// The user can update the form and figure out auto fill loading bug
 
 import React, { useEffect } from "react";
 import { readDeck } from "../utils/api";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 
 function EditDeck({ currentDeck, setCurrentDeck }) {
   const history = useHistory();
+  const params = useParams();
 
   useEffect(() => {
-    readDeck(1).then(setCurrentDeck);
+    readDeck(params.deckId).then(setCurrentDeck);
   }, []);
 
   return (

@@ -20,17 +20,18 @@ function Home() {
   }, []);
 
   const navigation = (event) => {
-    const butVal = event.target.id;
-    switch (butVal) {
+    const butId = event.target.id;
+    const butVal = event.target.value;
+    switch (butId) {
       case `createDeck`:
         history.push("/decks/new");
         break;
       case `edit`:
-        history.push("/decks/:deckId/edit");
+        history.push(`/decks/${butVal}/edit`);
         break;
       case `study`:
       default:
-        history.push("/decks/:deckId/study");
+        history.push(`/decks/${butVal}/study`);
         break;
     }
   };
@@ -53,10 +54,10 @@ function Home() {
           <h1>{deck.name}</h1>
           <p>{cards.length} cards</p>
           <p>{deck.description}</p>
-          <button onClick={navigation} id="edit">
+          <button onClick={navigation} id="edit" value={deck.id}>
             Edit
           </button>
-          <button onClick={navigation} id="study">
+          <button onClick={navigation} id="study" value={deck.id}>
             Study
           </button>
           <button onClick={delThisDeck} value={deck.id}>

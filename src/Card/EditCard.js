@@ -1,25 +1,28 @@
 // pre-fill with information for the existing card and update.
 //Update breadcrumb
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { readDeck, readCard } from "../utils/api";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 
 function EditCard({ currentDeck, setCurrentDeck }) {
   const history = useHistory();
+  const params = useParams();
+  const [currentCard, setCurrentCard] = useState([]);
 
   useEffect(() => {
-    readDeck(1).then(setCurrentDeck);
+    readDeck(params.deckId).then(setCurrentDeck);
   }, []);
 
   useEffect(() => {
-    readCard(1).then();
+    readCard(params.cardId).then(setCurrentCard);
   }, []);
 
   return (
     <>
       <h2>
-        <Link to="/">Home</Link> / <Link>{currentDeck.name}</Link> / Edit Card {"1"}
+        <Link to="/">Home</Link> / <Link>{currentDeck.name}</Link> / Edit Card{" "}
+        {"1"}
       </h2>
       <h1>React Router: Add Card</h1>
       <form>
@@ -27,15 +30,11 @@ function EditCard({ currentDeck, setCurrentDeck }) {
         <textarea
           id="cardFront"
           name="cardFront"
-          defaultValue={}
+          defaultValue={""}
           type="text"
         ></textarea>
         <label for="cardBack">Back</label>
-        <textarea
-          id="cardBack"
-          name="cardBack"
-          defaultValue={}
-        ></textarea>
+        <textarea id="cardBack" name="cardBack" defaultValue={""}></textarea>
         <button onClick={() => history.push("/")}>Cancel</button>
         <button onClick={() => history.push("/")}>Save</button>
       </form>

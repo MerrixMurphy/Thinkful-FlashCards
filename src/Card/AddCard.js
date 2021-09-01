@@ -2,13 +2,14 @@
 // If the user clicks "Save", a new card is created and associated with the relevant deck. Then the form is cleared and the process for adding a card is restarted.
 import React, { useEffect } from "react";
 import { readDeck } from "../utils/api";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 
 function AddCard({ currentDeck, setCurrentDeck }) {
   const history = useHistory();
+  const params = useParams();
 
   useEffect(() => {
-    readDeck(1).then(setCurrentDeck);
+    readDeck(params.deckId).then(setCurrentDeck);
   }, []);
 
   return (
