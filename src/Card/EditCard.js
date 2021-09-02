@@ -1,5 +1,4 @@
 // pre-fill with information for the existing card and update.
-//Update breadcrumb
 
 import React, { useEffect, useState } from "react";
 import { readDeck, readCard } from "../utils/api";
@@ -21,20 +20,22 @@ function EditCard({ currentDeck, setCurrentDeck }) {
   return (
     <div>
       <h2>
-        <Link to="/">Home</Link> / <Link>{currentDeck.name}</Link> / Edit Card{" "}
-        {"1"}
+        <Link to="/">Home</Link> /{" "}
+        <Link to={`/decks/${currentDeck.id}`}>{currentDeck.name}</Link> / Edit
+        Card {"1"}
       </h2>
       <h1>React Router: Add Card</h1>
       <form>
         <label for="cardFront">Front</label>
         <textarea
+          required
           id="cardFront"
           name="cardFront"
-          defaultValue={""}
+          value={""}
           type="text"
         ></textarea>
         <label for="cardBack">Back</label>
-        <textarea id="cardBack" name="cardBack" defaultValue={""}></textarea>
+        <textarea required id="cardBack" name="cardBack" value={""}></textarea>
         <button onClick={() => history.push("/")}>Cancel</button>
         <button onClick={() => history.push("/")}>Save</button>
       </form>

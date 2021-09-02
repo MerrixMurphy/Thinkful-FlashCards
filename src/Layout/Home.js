@@ -4,17 +4,18 @@ import { listDecks, listCards, deleteDeck } from "../utils/api";
 
 // Existing decks are each shown with the number of cards
 
-// If the user clicks "OK", the deck is deleted and the deleted deck is no longer visible on the Home screen.
+// Fix get deck requests running indefinately
 
-function Home() {
+// Delete the proper cards with the deck deletion
+
+function Home({ cards, setCards }) {
   const history = useHistory();
   const [decks, setDecks] = useState([]);
-  const [cards, setCards] = useState([]);
 
   useEffect(() => {
     listDecks().then(setDecks);
   }, []);
-
+  // add cards to update if get request is ok
   useEffect(() => {
     listCards(1).then(setCards);
   }, []);
@@ -26,8 +27,8 @@ function Home() {
       case `createDeck`:
         history.push("/decks/new");
         break;
-      case `edit`:
-        history.push(`/decks/${butVal}/edit`);
+      case `view`:
+        history.push(`/decks/${butVal}`);
         break;
       case `study`:
       default:
@@ -38,9 +39,12 @@ function Home() {
 
   const delThisDeck = (event) => {
     if (
-      window.confirm("Delete this deck? You will not be able to recover it.")
+      window.confirm(
+        "Delete this deck? \n\n You will not be able to recover it."
+      )
     ) {
-      console.log(event.target.value);
+      deleteDeck(event.target.value);
+      setDecks([]);
     }
   };
 
@@ -54,8 +58,8 @@ function Home() {
           <h1>{deck.name}</h1>
           <p>{cards.length} cards</p>
           <p>{deck.description}</p>
-          <button onClick={navigation} id="edit" value={deck.id}>
-            Edit
+          <button onClick={navigation} id="view" value={deck.id}>
+            View
           </button>
           <button onClick={navigation} id="study" value={deck.id}>
             Study

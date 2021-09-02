@@ -10,8 +10,11 @@ import AddCard from "../Card/AddCard";
 import EditCard from "../Card/EditCard";
 import Deck from "../Deck/Deck";
 
+//style everything
+
 function Layout() {
   const [currentDeck, setCurrentDeck] = useState([]);
+  const [cards, setCards] = useState([]);
 
   return (
     <div>
@@ -19,7 +22,7 @@ function Layout() {
       <div className="container">
         <Switch>
           <Route exact path="/">
-            <Home />
+            <Home cards={cards} setCards={setCards} />
           </Route>
           <Route path="/decks/new">
             <CreateDeck />
@@ -31,10 +34,15 @@ function Layout() {
             />
           </Route>
           <Route path="/decks/:deckId/study">
-            <Study currentDeck={currentDeck} setCurrentDeck={setCurrentDeck} />
+            <Study
+              currentDeck={currentDeck}
+              setCurrentDeck={setCurrentDeck}
+              cards={cards}
+              setCards={setCards}
+            />
           </Route>
-          <Route path="/decks/:deckId">
-            <Deck />
+          <Route exact path="/decks/:deckId">
+            <Deck currentDeck={currentDeck} setCurrentDeck={setCurrentDeck} />
           </Route>
           <Route path="/decks/:deckId/cards/new">
             <AddCard
@@ -43,7 +51,10 @@ function Layout() {
             />
           </Route>
           <Route path="/decks/:deckId/cards/:cardId/edit">
-            <EditCard />
+            <EditCard
+              currentDeck={currentDeck}
+              setCurrentDeck={setCurrentDeck}
+            />
           </Route>
           <Route>
             <NotFound />

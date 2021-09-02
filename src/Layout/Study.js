@@ -1,51 +1,76 @@
-// Cards are shown one at a time, front-side first.
-// A button at the bottom of each card "flips" it to the other side.
-// After flipping the card, the screen shows a next button (see the "Next button" section below) to continue to the next card.
-// After the final card in the deck has been shown, a message (see the "Restart prompt" section below) is shown offering the user the opportunity to restart the deck.
-// If the user does not restart the deck, they should return to the home screen.
-// Studying a deck with two or fewer cards should display a "Not enough cards" message (see the "Not enough cards" section below) and a button to add cards to the deck.
+import React, { useEffect, useState } from "react";
+import { Link, useHistory, useParams } from "react-router-dom";
+import { readDeck, listCards } from "../utils/api";
 
-// Next button
-// The next button appears after the card is flipped.
-
-// Restart prompt
-// When all cards are finished, a message is shown and the user is offered the opportunity to restart the deck. If the user does not restart the deck, they return to the home screen.
-
-// You can use window.confirm() to create the modal dialog shown in the screenshot below.
-
-// Not enough cards
-// Studying a Deck with two or fewer cards should display a "Not enough cards" message and a button to add cards to the deck.
-// Clicking the "Add Cards" button should take the user to the Add Card screen.
-import React, { useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
-import { readDeck } from "../utils/api";
-
-function Study({ currentDeck, setCurrentDeck }) {
+function Study({ currentDeck, setCurrentDeck, cards, setCards }) {
   const history = useHistory();
+  const params = useParams();
+  const [cardTracker, setCardTracker] = useState(0);
+  const [sideTracker, setSideTracker] = useState("front");
 
   useEffect(() => {
-    readDeck(currentDeck.id).then();
-  });
+    setCurrentDeck([]);
+    readDeck(params.deckId).then(setCurrentDeck);
+  }, []);
+
+  useEffect(() => {
+    setCards([]);
+    listCards(params.deckId).then(setCards);
+  }, []);
+
+  const sideSwitch = () => {
+    sideTracker === "front" ? setSideTracker("back") : setSideTracker("front");
+  };
+
+  const nextCard = () => {
+    if (cardTracker < cards.length - 1) {
+      setCardTracker(cardTracker + 1);
+      setSideTracker("front");
+    } else {
+      if (
+        window.confirm(
+          "Restart cards? \n\n Click `cancel` to return to the home page."
+        )
+      ) {
+        setSideTracker("front");
+        setCardTracker(0);
+      } else {
+        history.push("/");
+      }
+    }
+  };
 
   return (
     <div>
       <h2>
-        <Link to="/">Home</Link> / <Link>{currentDeck.name}</Link> / Study
+        <Link to="/">Home</Link> /{" "}
+        <Link to={`/decks/${currentDeck.id}`}>{currentDeck.name}</Link> / Study
       </h2>
       <h1>Study: {currentDeck.name}</h1>
-      {false ? (
+      {cards.length > 2 ? (
         <div>
           <h2>
-            Cards: {""} of {""}
-          </h2>{" "}
-          <p>{""}</p>
-          <button>Flip</button>
+            Cards: {cardTracker + 1} of {cards.length}
+          </h2>
+          {sideTracker === "front" ? (
+            <div>
+              <p>{cards[cardTracker].front}</p>
+              <button onClick={sideSwitch}>Flip</button>
+            </div>
+          ) : (
+            <div>
+              <p>{cards[cardTracker].back}</p>
+              <button onClick={sideSwitch}>Flip</button>
+              <button onClick={nextCard}>Next</button>
+            </div>
+          )}
         </div>
       ) : (
         <div>
           <h2>Not enough cards.</h2>{" "}
           <p>
-            You need at least 3 cards to study. There are {"num"} in this deck.
+            You need at least 3 cards to study. There are {cards.length} in this
+            deck.
           </p>
           <button
             onClick={() => history.push(`/decks/${currentDeck.id}/cards/new`)}

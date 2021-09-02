@@ -24,10 +24,31 @@
 // When the user clicks the "Delete" button associated with a card, a warning message is shown and the user can click "OK" or "Cancel". If the user clicks "OK", the card is deleted.
 
 // You can use window.confirm() to create the modal dialog shown in the screenshot below.
-import React from "react";
+import React, { useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
+import { readDeck } from "../utils/api";
 
-function Deck() {
-  return <h1>Hi</h1>;
+function Deck({ currentDeck, setCurrentDeck }) {
+  const params = useParams();
+
+  useEffect(() => {
+    setCurrentDeck([]);
+    readDeck(params.deckId).then(setCurrentDeck);
+  }, []);
+
+  return (
+    <div>
+      <h2>
+        <Link to="/">Home</Link> / {currentDeck.name}
+      </h2>
+      <h1>{currentDeck.name}</h1>
+      <p>{currentDeck.description}</p>
+      <button>Edit</button>
+      <button>Study</button>
+      <button>Add Cards</button>
+      <button>Delete</button>
+    </div>
+  );
 }
 
 export default Deck;
