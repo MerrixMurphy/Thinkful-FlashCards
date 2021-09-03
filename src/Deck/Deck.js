@@ -1,40 +1,46 @@
-// The Deck screen has the following features:
-
-// The path to this screen should include the deckId (i.e., /decks/:deckId).
-// You must use the readDeck() function from src/utils/api/index.js to load the existing deck.
-// There is a breadcrumb navigation bar with a link to home / followed by the name of the deck (e.g., Home/React Router).
-// The screen includes the deck name (e.g., "React Router") and deck description (e.g., "React Router is a collection of navigational components that compose declaratively in your application").
-// The screen includes "Edit", "Study", "Add Cards", and "Delete" buttons. Each button takes the user to a different destination, as follows:
-
-// | Button Clicked | Destination |
-// | -------------- | ---------------------------------------------------------------------------------------------- |
-// | "Edit" | Edit Deck Screen |
-// | "Study" | Study screen |
-// | "Add Cards" | Add Card screen |
-// | "Delete" | Shows a warning message before deleting the deck]( See the "Delete Card Prompt" section below) |
-
-// Each card in the deck:
-
-// is listed on the page under the "Cards" heading.
-// shows a question and the answer to the question.
-// has an “Edit” button that takes the user to the Edit Card screen when clicked.
-// has a “Delete” button that allows that card to be deleted.
-
-// Delete Card Prompt
-// When the user clicks the "Delete" button associated with a card, a warning message is shown and the user can click "OK" or "Cancel". If the user clicks "OK", the card is deleted.
-
-// You can use window.confirm() to create the modal dialog shown in the screenshot below.
 import React, { useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
-import { readDeck } from "../utils/api";
+import { Link, useHistory, useParams } from "react-router-dom";
+import {
+  deleteCard,
+  deleteDeck,
+  listCards,
+  readDeck,
+  listDecks,
+} from "../utils/api";
 
-function Deck({ currentDeck, setCurrentDeck }) {
+function Deck({ currentDeck, setCurrentDeck, cards, setCards, setDecks }) {
+  const history = useHistory();
   const params = useParams();
 
   useEffect(() => {
-    setCurrentDeck([]);
     readDeck(params.deckId).then(setCurrentDeck);
+    listCards(params.deckId).then(setCards);
   }, []);
+
+  const delThisDeck = () => {
+    if (
+      window.confirm(
+        "Delete this deck? \n\n You will not be able to recover it."
+      )
+    ) {
+      deleteDeck(params.deckId).then(() => listDecks().then(setDecks));
+      setCurrentDeck([]);
+      setCards([]);
+      history.push("/");
+    }
+  };
+
+  const delThisCard = (event) => {
+    if (
+      window.confirm(
+        "Delete this card? \n\n You will not be able to recover it."
+      )
+    ) {
+      deleteCard(event.target.id).then(() =>
+        listCards(params.deckId).then(setCards)
+      );
+    }
+  };
 
   return (
     <div>
@@ -43,10 +49,33 @@ function Deck({ currentDeck, setCurrentDeck }) {
       </h2>
       <h1>{currentDeck.name}</h1>
       <p>{currentDeck.description}</p>
-      <button>Edit</button>
-      <button>Study</button>
-      <button>Add Cards</button>
-      <button>Delete</button>
+      <button onClick={() => history.push(`/decks/${params.deckId}/edit`)}>
+        Edit
+      </button>
+      <button onClick={() => history.push(`/decks/${params.deckId}/study`)}>
+        Study
+      </button>
+      <button onClick={() => history.push(`/decks/${params.deckId}/cards/new`)}>
+        Add Cards
+      </button>
+      <button onClick={delThisDeck}>Delete</button>
+      <h1>Cards</h1>
+      {cards.map((card) => (
+        <div>
+          <p>{card.front}</p>
+          <p>{card.back}</p>
+          <button
+            onClick={() =>
+              history.push(`/decks/${params.deckId}/cards/${card.id}/edit`)
+            }
+          >
+            Edit
+          </button>
+          <button id={card.id} onClick={delThisCard}>
+            Delete
+          </button>
+        </div>
+      ))}
     </div>
   );
 }

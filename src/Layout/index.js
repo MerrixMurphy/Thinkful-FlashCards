@@ -10,11 +10,11 @@ import AddCard from "../Card/AddCard";
 import EditCard from "../Card/EditCard";
 import Deck from "../Deck/Deck";
 
-//style everything
-
 function Layout() {
   const [currentDeck, setCurrentDeck] = useState([]);
   const [cards, setCards] = useState([]);
+  const [decks, setDecks] = useState([]);
+  const [currentCard, setCurrentCard] = useState([]);
 
   return (
     <div>
@@ -22,7 +22,12 @@ function Layout() {
       <div className="container">
         <Switch>
           <Route exact path="/">
-            <Home cards={cards} setCards={setCards} />
+            <Home
+              cards={cards}
+              setCards={setCards}
+              decks={decks}
+              setDecks={setDecks}
+            />
           </Route>
           <Route path="/decks/new">
             <CreateDeck />
@@ -42,7 +47,13 @@ function Layout() {
             />
           </Route>
           <Route exact path="/decks/:deckId">
-            <Deck currentDeck={currentDeck} setCurrentDeck={setCurrentDeck} />
+            <Deck
+              currentDeck={currentDeck}
+              setCurrentDeck={setCurrentDeck}
+              cards={cards}
+              setCards={setCards}
+              setDecks={setDecks}
+            />
           </Route>
           <Route path="/decks/:deckId/cards/new">
             <AddCard
@@ -54,6 +65,8 @@ function Layout() {
             <EditCard
               currentDeck={currentDeck}
               setCurrentDeck={setCurrentDeck}
+              currentCard={currentCard}
+              setCurrentCard={setCurrentCard}
             />
           </Route>
           <Route>

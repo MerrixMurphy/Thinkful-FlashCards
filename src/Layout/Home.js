@@ -1,23 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router";
 import { listDecks, listCards, deleteDeck } from "../utils/api";
 
-// Existing decks are each shown with the number of cards
+// Fix sync issues throughout
 
-// Fix get deck requests running indefinately
+//style everything
 
-// Delete the proper cards with the deck deletion
+//pass tests
 
-function Home({ cards, setCards }) {
+//The Edit Card and Create Card screens share the same form component.
+
+//The useEffect() hooks have the appropriate dependencies listed in the dependency array.
+
+function Home({ cards, setCards, decks, setDecks }) {
   const history = useHistory();
-  const [decks, setDecks] = useState([]);
 
   useEffect(() => {
+    // add async above
+    // let decks = await listDecks();
+    // decks = decks.map(async (deck) => {
+    //   const cards = await listCards(deck.id);
+    //   deck.count = cards.length;
+    //   return d eck;
+    // });
+    // Promise.all(decks).then(setDecks);
     listDecks().then(setDecks);
-  }, []);
-  // add cards to update if get request is ok
-  useEffect(() => {
-    listCards(1).then(setCards);
   }, []);
 
   const navigation = (event) => {
@@ -43,8 +50,7 @@ function Home({ cards, setCards }) {
         "Delete this deck? \n\n You will not be able to recover it."
       )
     ) {
-      deleteDeck(event.target.value);
-      setDecks([]);
+      deleteDeck(event.target.value).then(() => listDecks().then(setDecks));
     }
   };
 
@@ -56,7 +62,7 @@ function Home({ cards, setCards }) {
       {decks.map((deck) => (
         <div>
           <h1>{deck.name}</h1>
-          <p>{cards.length} cards</p>
+          <p>{deck.count} cards</p>
           <p>{deck.description}</p>
           <button onClick={navigation} id="view" value={deck.id}>
             View

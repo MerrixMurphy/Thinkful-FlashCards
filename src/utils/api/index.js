@@ -54,7 +54,6 @@ async function fetchJson(url, options, onCancel) {
     }
 
     return await response.json();
-
   } catch (error) {
     if (error.name !== "AbortError") {
       console.error(error.stack);
@@ -199,7 +198,7 @@ export async function readCard(cardId, signal) {
 }
 
 /**
- * Updates an existing deck
+ * Updates an existing card
  * @param updatedCard
  *  the card to save, which must have an `id` property.
  * @param signal

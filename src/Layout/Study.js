@@ -9,12 +9,7 @@ function Study({ currentDeck, setCurrentDeck, cards, setCards }) {
   const [sideTracker, setSideTracker] = useState("front");
 
   useEffect(() => {
-    setCurrentDeck([]);
     readDeck(params.deckId).then(setCurrentDeck);
-  }, []);
-
-  useEffect(() => {
-    setCards([]);
     listCards(params.deckId).then(setCards);
   }, []);
 
