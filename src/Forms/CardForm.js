@@ -5,72 +5,88 @@ import { createCard, updateCard, readCard } from "../utils/api";
 function CardForm({ currentDeck, currentCard, setCurrentCard }) {
   const history = useHistory();
   const params = useParams();
+  const currentDeckParam = params.deckId;
+  const currentCardParam = params.cardId;
   const [cardUpdate] = useState({});
 
   const submitHandler = (event) => {
     event.preventDefault();
 
-    if (!currentCard) {
-      cardUpdate.id = params.cardId;
+    if (currentCard) {
+      cardUpdate.id = currentCardParam;
       cardUpdate.deckId = currentDeck.id;
     }
 
-    !currentCard
-      ? updateCard(cardUpdate)
-      : createCard(currentDeck.id, cardUpdate);
+    if (currentCard) {
+      updateCard(cardUpdate);
+    } else {
+      createCard(currentDeckParam, cardUpdate);
+    }
 
     if (currentCard) {
-      history.push(`/decks/${params.deckId}`);
+      history.push(`/decks/${currentDeckParam}`);
     } else {
-      const cardFront = document.getElementById("cardFront").value;
-      const cardBack = document.getElementById("cardBack").value;
-      cardFront = "";
-      cardBack = "";
+      const cardFront = document.getElementById("cardFront");
+      const cardBack = document.getElementById("cardBack");
+      cardFront.value = "";
+      cardBack.value = "";
     }
   };
 
   const onChangeHandler = () => {
-    const cardFront = document.getElementById("cardFront").value;
-    const cardBack = document.getElementById("cardBack").value;
-    cardUpdate.front = cardFront;
-    cardUpdate.back = cardBack;
+    const cardFront = document.getElementById("cardFront");
+    const cardBack = document.getElementById("cardBack");
+    cardUpdate.front = cardFront.value;
+    cardUpdate.back = cardBack.value;
   };
 
   useEffect(() => {
     const cardFront = document.getElementById("cardFront");
     const cardBack = document.getElementById("cardBack");
-
-    if (currentCard) {
-      readCard(params.cardId)
-        .then(setCurrentCard)
-        .then(() => (cardFront.value = currentCard.front))
-        .then(() => (cardBack.value = currentCard.back));
+    if (currentCardParam) {
+      readCard(currentCardParam).then(
+        (response) => (
+          setCurrentCard,
+          (cardFront.value = response.front),
+          (cardBack.value = response.back),
+          (cardUpdate.front = response.front),
+          (cardUpdate.back = response.back)
+        )
+      );
     }
   }, []);
 
   return (
     <form onSubmit={submitHandler}>
-      <label for="cardFront">Front</label>
-      <textarea
-        required
-        id="cardFront"
-        name="cardFront"
-        placeholder="Front side of card"
-        onChange={onChangeHandler}
-        type="text"
-      ></textarea>
-      <label for="cardBack">Back</label>
-      <textarea
-        required
-        id="cardBack"
-        name="cardBack"
-        placeholder="Back side of card"
-        onChange={onChangeHandler}
-      ></textarea>
-      <button onClick={() => history.push(`/decks/${params.deckId}`)}>
+      <div className={"col-1"}>
+        <label for="cardFront">Front</label>
+        <textarea
+          required
+          id="cardFront"
+          name="cardFront"
+          placeholder="Front side of card"
+          onChange={onChangeHandler}
+          type="text"
+        ></textarea>
+        <label for="cardBack">Back</label>
+        <textarea
+          required
+          id="cardBack"
+          name="cardBack"
+          placeholder="Back side of card"
+          onChange={onChangeHandler}
+        ></textarea>
+      </div>
+      <button
+        className={"bg-secondary text-white"}
+        onClick={() => history.push(`/decks/${params.deckId}`)}
+      >
         {currentCard ? "Cancel" : "Done"}
       </button>
-      <button type="submit"> {currentCard ? "Submit" : "Save"}</button>
+      <button className={"bg-primary text-white"} type="submit">
+        {" "}
+        {currentCard ? "Submit" : "Save"}
+      </button>
     </form>
   );
 }

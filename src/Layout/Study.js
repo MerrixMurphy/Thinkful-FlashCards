@@ -37,11 +37,11 @@ function Study({ currentDeck, setCurrentDeck, cards, setCards }) {
 
   return (
     <div>
-      <h2>
+      <h5 className={"bg-light p-2"}>
         <Link to="/">Home</Link> /{" "}
         <Link to={`/decks/${currentDeck.id}`}>{currentDeck.name}</Link> / Study
-      </h2>
-      <h1>Study: {currentDeck.name}</h1>
+      </h5>
+      <h1>{currentDeck.name}: Study</h1>
       {cards.length > 2 ? (
         <div>
           <h2>
@@ -50,13 +50,25 @@ function Study({ currentDeck, setCurrentDeck, cards, setCards }) {
           {sideTracker === "front" ? (
             <div>
               <p>{cards[cardTracker].front}</p>
-              <button onClick={sideSwitch}>Flip</button>
+              <button
+                className={"bg-secondary text-white"}
+                onClick={sideSwitch}
+              >
+                Flip
+              </button>
             </div>
           ) : (
             <div>
               <p>{cards[cardTracker].back}</p>
-              <button onClick={sideSwitch}>Flip</button>
-              <button onClick={nextCard}>Next</button>
+              <button
+                className={"bg-secondary text-white"}
+                onClick={sideSwitch}
+              >
+                Flip
+              </button>
+              <button className={"bg-primary text-white"} onClick={nextCard}>
+                Next
+              </button>
             </div>
           )}
         </div>
@@ -68,6 +80,7 @@ function Study({ currentDeck, setCurrentDeck, cards, setCards }) {
             deck.
           </p>
           <button
+            className={"bg-primary text-white"}
             onClick={() => history.push(`/decks/${currentDeck.id}/cards/new`)}
           >
             Add Cards

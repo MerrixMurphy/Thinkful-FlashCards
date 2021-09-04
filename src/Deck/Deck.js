@@ -44,36 +44,58 @@ function Deck({ currentDeck, setCurrentDeck, cards, setCards, setDecks }) {
 
   return (
     <div>
-      <h2>
+      <h5 className={"bg-light p-2"}>
         <Link to="/">Home</Link> / {currentDeck.name}
-      </h2>
+      </h5>
       <h1>{currentDeck.name}</h1>
       <p>{currentDeck.description}</p>
-      <button onClick={() => history.push(`/decks/${params.deckId}/edit`)}>
-        Edit
-      </button>
-      <button onClick={() => history.push(`/decks/${params.deckId}/study`)}>
-        Study
-      </button>
-      <button onClick={() => history.push(`/decks/${params.deckId}/cards/new`)}>
-        Add Cards
-      </button>
-      <button onClick={delThisDeck}>Delete</button>
-      <h1>Cards</h1>
-      {cards.map((card) => (
+      <div className={"d-flex justify-content-between"}>
         <div>
-          <p>{card.front}</p>
-          <p>{card.back}</p>
           <button
-            onClick={() =>
-              history.push(`/decks/${params.deckId}/cards/${card.id}/edit`)
-            }
+            className={"bg-secondary text-white"}
+            onClick={() => history.push(`/decks/${params.deckId}/edit`)}
           >
             Edit
           </button>
-          <button id={card.id} onClick={delThisCard}>
-            Delete
+          <button
+            className={"bg-primary text-white"}
+            onClick={() => history.push(`/decks/${params.deckId}/study`)}
+          >
+            Study
           </button>
+          <button
+            className={"bg-primary text-white"}
+            onClick={() => history.push(`/decks/${params.deckId}/cards/new`)}
+          >
+            Add Cards
+          </button>
+        </div>
+        <button className={"bg-danger text-white"} onClick={delThisDeck}>
+          Delete
+        </button>
+      </div>
+      <h1>Cards</h1>
+      {cards.map((card) => (
+        <div className={"border"}>
+          <p>{card.front}</p>
+          <p>{card.back}</p>
+          <div className={"d-flex justify-content-end"}>
+            <button
+              className={"bg-secondary text-white"}
+              onClick={() =>
+                history.push(`/decks/${params.deckId}/cards/${card.id}/edit`)
+              }
+            >
+              Edit
+            </button>
+            <button
+              className={"bg-danger text-white"}
+              id={card.id}
+              onClick={delThisCard}
+            >
+              Delete
+            </button>
+          </div>
         </div>
       ))}
     </div>

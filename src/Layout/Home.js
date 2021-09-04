@@ -1,29 +1,26 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
-import { listDecks, listCards, deleteDeck } from "../utils/api";
-
-// Fix sync issues throughout
-
-//style everything
+import { listDecks, deleteDeck } from "../utils/api";
 
 //pass tests
 
-//The Edit Card and Create Card screens share the same form component.
-
-//The useEffect() hooks have the appropriate dependencies listed in the dependency array.
-
-function Home({ cards, setCards, decks, setDecks }) {
+function Home({ decks, setDecks }) {
   const history = useHistory();
+  const [cardAmount] = useState({});
 
   useEffect(() => {
-    // add async above
-    // let decks = await listDecks();
-    // decks = decks.map(async (deck) => {
-    //   const cards = await listCards(deck.id);
-    //   deck.count = cards.length;
-    //   return d eck;
-    // });
-    // Promise.all(decks).then(setDecks);
+    fetch("http://localhost:5000/cards")
+      .then((response) => response.json())
+      .then((response) =>
+        response.map((card) => {
+          if (cardAmount[card.deckId]) {
+            cardAmount[card.deckId] += 1;
+          } else {
+            cardAmount[card.deckId] = 1;
+          }
+        })
+      );
+
     listDecks().then(setDecks);
   }, []);
 
@@ -56,23 +53,47 @@ function Home({ cards, setCards, decks, setDecks }) {
 
   return (
     <div>
-      <button onClick={navigation} id="createDeck">
+      <button
+        className={"bg-secondary text-white"}
+        onClick={navigation}
+        id="createDeck"
+      >
         Create Deck
       </button>
       {decks.map((deck) => (
-        <div>
-          <h1>{deck.name}</h1>
-          <p>{deck.count} cards</p>
+        <div className={"border my-2 col"}>
+          <div className={"d-flex justify-content-between"}>
+            <h1>{deck.name}</h1>
+            <p>{cardAmount[deck.id] ? cardAmount[deck.id] : 0} cards</p>
+          </div>
           <p>{deck.description}</p>
-          <button onClick={navigation} id="view" value={deck.id}>
-            View
-          </button>
-          <button onClick={navigation} id="study" value={deck.id}>
-            Study
-          </button>
-          <button onClick={delThisDeck} value={deck.id}>
-            Delete
-          </button>
+          <div className={"mb-2 mx-1 d-flex justify-content-between"}>
+            <div>
+              <button
+                className={"bg-secondary text-white"}
+                onClick={navigation}
+                id="view"
+                value={deck.id}
+              >
+                View
+              </button>
+              <button
+                className={"bg-primary text-white"}
+                onClick={navigation}
+                id="study"
+                value={deck.id}
+              >
+                Study
+              </button>
+            </div>
+            <button
+              className={"bg-danger text-white"}
+              onClick={delThisDeck}
+              value={deck.id}
+            >
+              Delete
+            </button>
+          </div>
         </div>
       ))}
     </div>

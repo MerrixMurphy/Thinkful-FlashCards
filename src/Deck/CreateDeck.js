@@ -12,9 +12,9 @@ function CreateDeck() {
 
   return (
     <div>
-      <h2>
+      <h5 className={"bg-light p-2"}>
         <Link to="/">Home</Link> / Create Deck
-      </h2>
+      </h5>
       <h1>Create Deck</h1>
       <DeckForm setCurrentDeckAmount={setCurrentDeckAmount} />
     </div>

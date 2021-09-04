@@ -22,23 +22,18 @@ function Layout() {
       <div className="container">
         <Switch>
           <Route exact path="/">
-            <Home
-              cards={cards}
-              setCards={setCards}
-              decks={decks}
-              setDecks={setDecks}
-            />
+            <Home decks={decks} setDecks={setDecks} />
           </Route>
-          <Route path="/decks/new">
+          <Route exact path="/decks/new">
             <CreateDeck />
           </Route>
-          <Route path="/decks/:deckId/edit">
+          <Route exact path="/decks/:deckId/edit">
             <EditDeck
               currentDeck={currentDeck}
               setCurrentDeck={setCurrentDeck}
             />
           </Route>
-          <Route path="/decks/:deckId/study">
+          <Route exact path="/decks/:deckId/study">
             <Study
               currentDeck={currentDeck}
               setCurrentDeck={setCurrentDeck}
@@ -55,13 +50,13 @@ function Layout() {
               setDecks={setDecks}
             />
           </Route>
-          <Route path="/decks/:deckId/cards/new">
+          <Route exact path="/decks/:deckId/cards/new">
             <AddCard
               currentDeck={currentDeck}
               setCurrentDeck={setCurrentDeck}
             />
           </Route>
-          <Route path="/decks/:deckId/cards/:cardId/edit">
+          <Route exact path="/decks/:deckId/cards/:cardId/edit">
             <EditCard
               currentDeck={currentDeck}
               setCurrentDeck={setCurrentDeck}

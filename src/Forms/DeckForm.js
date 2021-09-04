@@ -38,6 +38,8 @@ function DeckForm({ currentDeck, setCurrentDeck, setCurrentDeckAmount }) {
     const deckDes = document.getElementById("deckDes");
 
     if (currentDeck) {
+      deckUpdate.name = currentDeck.name;
+      deckUpdate.description = currentDeck.description;
       deckName.value = currentDeck.name;
       deckDes.value = currentDeck.description;
     }
@@ -45,25 +47,34 @@ function DeckForm({ currentDeck, setCurrentDeck, setCurrentDeckAmount }) {
 
   return (
     <form onSubmit={submitHandler}>
-      <label for="deckName">Name</label>
-      <input
-        required
-        id="deckName"
-        name="deckName"
-        type="text"
-        placeholder="Deck Name"
-        onChange={onChangeHandler}
-      ></input>
-      <label for="deckDes">Description</label>
-      <textarea
-        required
-        id="deckDes"
-        name="deckDes"
-        placeholder="Brief description of the deck"
-        onChange={onChangeHandler}
-      ></textarea>
-      <button onClick={() => history.push("/")}>Cancel</button>
-      <button type="submit">Submit</button>
+      <div className={"col-1"}>
+        <label for="deckName">Name</label>
+        <input
+          required
+          id="deckName"
+          name="deckName"
+          type="text"
+          placeholder="Deck Name"
+          onChange={onChangeHandler}
+        ></input>
+        <label for="deckDes">Description</label>
+        <textarea
+          required
+          id="deckDes"
+          name="deckDes"
+          placeholder="Brief description of the deck"
+          onChange={onChangeHandler}
+        ></textarea>
+      </div>
+      <button
+        className={"bg-secondary text-white"}
+        onClick={() => history.push("/")}
+      >
+        Cancel
+      </button>
+      <button className={"bg-primary text-white"} type="submit">
+        Submit
+      </button>
     </form>
   );
 }
