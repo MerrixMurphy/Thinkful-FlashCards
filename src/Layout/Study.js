@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
-import { readDeck, listCards } from "../utils/api";
+import { readDeck } from "../utils/api";
 
-function Study({ currentDeck, setCurrentDeck, cards, setCards }) {
+function Study({ currentDeck, setCurrentDeck }) {
   const history = useHistory();
   const params = useParams();
   const [cardTracker, setCardTracker] = useState(0);
@@ -10,7 +10,6 @@ function Study({ currentDeck, setCurrentDeck, cards, setCards }) {
 
   useEffect(() => {
     readDeck(params.deckId).then(setCurrentDeck);
-    listCards(params.deckId).then(setCards);
   }, []);
 
   const sideSwitch = () => {
@@ -18,7 +17,7 @@ function Study({ currentDeck, setCurrentDeck, cards, setCards }) {
   };
 
   const nextCard = () => {
-    if (cardTracker < cards.length - 1) {
+    if (cardTracker < currentDeck.cards.length - 1) {
       setCardTracker(cardTracker + 1);
       setSideTracker("front");
     } else {
@@ -35,21 +34,19 @@ function Study({ currentDeck, setCurrentDeck, cards, setCards }) {
     }
   };
 
-  return (
+  return currentDeck.cards ? (
     <div>
       <h5 className={"bg-light p-2"}>
         <Link to="/">Home</Link> /{" "}
         <Link to={`/decks/${currentDeck.id}`}>{currentDeck.name}</Link> / Study
       </h5>
       <h1>{currentDeck.name}: Study</h1>
-      {cards.length > 2 ? (
+      {currentDeck.cards.length > 2 ? (
         <div>
-          <h2>
-            Cards: {cardTracker + 1} of {cards.length}
-          </h2>
+          <h2>{`Card ${cardTracker + 1} of ${currentDeck.cards.length}`}</h2>
           {sideTracker === "front" ? (
             <div>
-              <p>{cards[cardTracker].front}</p>
+              <p>{currentDeck.cards[cardTracker].front}</p>
               <button
                 className={"bg-secondary text-white"}
                 onClick={sideSwitch}
@@ -59,7 +56,7 @@ function Study({ currentDeck, setCurrentDeck, cards, setCards }) {
             </div>
           ) : (
             <div>
-              <p>{cards[cardTracker].back}</p>
+              <p>{currentDeck.cards[cardTracker].back}</p>
               <button
                 className={"bg-secondary text-white"}
                 onClick={sideSwitch}
@@ -76,8 +73,8 @@ function Study({ currentDeck, setCurrentDeck, cards, setCards }) {
         <div>
           <h2>Not enough cards.</h2>{" "}
           <p>
-            You need at least 3 cards to study. There are {cards.length} in this
-            deck.
+            You need at least 3 cards to study. There are{" "}
+            {currentDeck.cards.length} in this deck.
           </p>
           <button
             className={"bg-primary text-white"}
@@ -88,7 +85,7 @@ function Study({ currentDeck, setCurrentDeck, cards, setCards }) {
         </div>
       )}
     </div>
-  );
+  ) : null;
 }
 
 export default Study;

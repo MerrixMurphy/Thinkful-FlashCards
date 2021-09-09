@@ -59,7 +59,7 @@ function CardForm({ currentDeck, currentCard, setCurrentCard }) {
   return (
     <form onSubmit={submitHandler}>
       <div className={"col-1"}>
-        <label for="cardFront">Front</label>
+        <label htmlFor="cardFront">Front</label>
         <textarea
           required
           id="cardFront"
@@ -68,7 +68,7 @@ function CardForm({ currentDeck, currentCard, setCurrentCard }) {
           onChange={onChangeHandler}
           type="text"
         ></textarea>
-        <label for="cardBack">Back</label>
+        <label htmlFor="cardBack">Back</label>
         <textarea
           required
           id="cardBack"

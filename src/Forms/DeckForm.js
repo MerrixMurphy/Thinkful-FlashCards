@@ -48,7 +48,7 @@ function DeckForm({ currentDeck, setCurrentDeck, setCurrentDeckAmount }) {
   return (
     <form onSubmit={submitHandler}>
       <div className={"col-1"}>
-        <label for="deckName">Name</label>
+        <label htmlFor="deckName">Name</label>
         <input
           required
           id="deckName"
@@ -57,7 +57,7 @@ function DeckForm({ currentDeck, setCurrentDeck, setCurrentDeckAmount }) {
           placeholder="Deck Name"
           onChange={onChangeHandler}
         ></input>
-        <label for="deckDes">Description</label>
+        <label htmlFor="deckDes">Description</label>
         <textarea
           required
           id="deckDes"

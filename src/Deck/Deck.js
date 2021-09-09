@@ -75,8 +75,8 @@ function Deck({ currentDeck, setCurrentDeck, cards, setCards, setDecks }) {
         </button>
       </div>
       <h1>Cards</h1>
-      {cards.map((card) => (
-        <div className={"border"}>
+      {cards.map((card, index) => (
+        <div className={"border"} key={index}>
           <p>{card.front}</p>
           <p>{card.back}</p>
           <div className={"d-flex justify-content-end"}>

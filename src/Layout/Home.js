@@ -1,26 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router";
 import { listDecks, deleteDeck } from "../utils/api";
 
-//pass tests
-
 function Home({ decks, setDecks }) {
   const history = useHistory();
-  const [cardAmount] = useState({});
 
   useEffect(() => {
-    fetch("http://localhost:5000/cards")
-      .then((response) => response.json())
-      .then((response) =>
-        response.map((card) => {
-          if (cardAmount[card.deckId]) {
-            cardAmount[card.deckId] += 1;
-          } else {
-            cardAmount[card.deckId] = 1;
-          }
-        })
-      );
-
     listDecks().then(setDecks);
   }, []);
 
@@ -60,11 +45,11 @@ function Home({ decks, setDecks }) {
       >
         Create Deck
       </button>
-      {decks.map((deck) => (
-        <div className={"border my-2 col"}>
+      {decks.map((deck, index) => (
+        <div className={"border my-2 col"} key={index}>
           <div className={"d-flex justify-content-between"}>
             <h1>{deck.name}</h1>
-            <p>{cardAmount[deck.id] ? cardAmount[deck.id] : 0} cards</p>
+            <p>{`${deck.cards.length} cards`}</p>
           </div>
           <p>{deck.description}</p>
           <div className={"mb-2 mx-1 d-flex justify-content-between"}>

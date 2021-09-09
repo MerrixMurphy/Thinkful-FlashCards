@@ -12,9 +12,10 @@ function AddCard({ currentDeck, setCurrentDeck }) {
   return (
     <div>
       <h5 className={"bg-light p-2"}>
-        <Link to="/">Home</Link> /{" "}
-        <Link to={`/decks/${params.deckId}`}>{currentDeck.name}</Link> / Add
-        Card
+        <Link to="/">Home</Link>
+        {" / "}
+        <Link to={`/decks/${params.deckId}`}>{currentDeck.name}</Link>
+        {" / "}Add Card
       </h5>
       <h1>{currentDeck.name}: Add Card</h1>
       <CardForm currentDeck={currentDeck} />
