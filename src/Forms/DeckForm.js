@@ -67,12 +67,15 @@ function DeckForm({ currentDeck, setCurrentDeck, setCurrentDeckAmount }) {
         ></textarea>
       </div>
       <button
-        className={"bg-secondary text-white"}
+        className={"bg-secondary text-white btn btn-outline-light"}
         onClick={() => history.push("/")}
       >
         Cancel
       </button>
-      <button className={"bg-primary text-white"} type="submit">
+      <button
+        className={"bg-primary text-white btn btn-outline-light"}
+        type="submit"
+      >
         Submit
       </button>
     </form>

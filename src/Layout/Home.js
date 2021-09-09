@@ -39,7 +39,7 @@ function Home({ decks, setDecks }) {
   return (
     <div>
       <button
-        className={"bg-secondary text-white"}
+        className={"bg-secondary text-white btn btn-outline-light"}
         onClick={navigation}
         id="createDeck"
       >
@@ -55,7 +55,7 @@ function Home({ decks, setDecks }) {
           <div className={"mb-2 mx-1 d-flex justify-content-between"}>
             <div>
               <button
-                className={"bg-secondary text-white"}
+                className={"bg-secondary text-white btn btn-outline-light"}
                 onClick={navigation}
                 id="view"
                 value={deck.id}
@@ -63,7 +63,7 @@ function Home({ decks, setDecks }) {
                 View
               </button>
               <button
-                className={"bg-primary text-white"}
+                className={"bg-primary text-white btn btn-outline-light"}
                 onClick={navigation}
                 id="study"
                 value={deck.id}
@@ -72,7 +72,7 @@ function Home({ decks, setDecks }) {
               </button>
             </div>
             <button
-              className={"bg-danger text-white"}
+              className={"bg-danger text-white btn btn-outline-light"}
               onClick={delThisDeck}
               value={deck.id}
             >

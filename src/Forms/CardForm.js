@@ -78,12 +78,15 @@ function CardForm({ currentDeck, currentCard, setCurrentCard }) {
         ></textarea>
       </div>
       <button
-        className={"bg-secondary text-white"}
+        className={"bg-secondary text-white btn btn-outline-light"}
         onClick={() => history.push(`/decks/${params.deckId}`)}
       >
         {currentCard ? "Cancel" : "Done"}
       </button>
-      <button className={"bg-primary text-white"} type="submit">
+      <button
+        className={"bg-primary text-white btn btn-outline-light"}
+        type="submit"
+      >
         {" "}
         {currentCard ? "Submit" : "Save"}
       </button>

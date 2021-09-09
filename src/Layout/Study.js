@@ -48,7 +48,7 @@ function Study({ currentDeck, setCurrentDeck }) {
             <div>
               <p>{currentDeck.cards[cardTracker].front}</p>
               <button
-                className={"bg-secondary text-white"}
+                className={"bg-secondary text-white btn btn-outline-light"}
                 onClick={sideSwitch}
               >
                 Flip
@@ -58,12 +58,15 @@ function Study({ currentDeck, setCurrentDeck }) {
             <div>
               <p>{currentDeck.cards[cardTracker].back}</p>
               <button
-                className={"bg-secondary text-white"}
+                className={"bg-secondary text-white btn btn-outline-light"}
                 onClick={sideSwitch}
               >
                 Flip
               </button>
-              <button className={"bg-primary text-white"} onClick={nextCard}>
+              <button
+                className={"bg-primary text-white btn btn-outline-light"}
+                onClick={nextCard}
+              >
                 Next
               </button>
             </div>
@@ -77,7 +80,7 @@ function Study({ currentDeck, setCurrentDeck }) {
             {currentDeck.cards.length} in this deck.
           </p>
           <button
-            className={"bg-primary text-white"}
+            className={"bg-primary text-white btn btn-outline-light"}
             onClick={() => history.push(`/decks/${currentDeck.id}/cards/new`)}
           >
             Add Cards

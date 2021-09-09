@@ -8,13 +8,12 @@ import {
   listDecks,
 } from "../utils/api";
 
-function Deck({ currentDeck, setCurrentDeck, cards, setCards, setDecks }) {
+function Deck({ currentDeck, setCurrentDeck, setDecks }) {
   const history = useHistory();
   const params = useParams();
 
   useEffect(() => {
     readDeck(params.deckId).then(setCurrentDeck);
-    listCards(params.deckId).then(setCards);
   }, []);
 
   const delThisDeck = () => {
@@ -25,7 +24,6 @@ function Deck({ currentDeck, setCurrentDeck, cards, setCards, setDecks }) {
     ) {
       deleteDeck(params.deckId).then(() => listDecks().then(setDecks));
       setCurrentDeck([]);
-      setCards([]);
       history.push("/");
     }
   };
@@ -36,13 +34,11 @@ function Deck({ currentDeck, setCurrentDeck, cards, setCards, setDecks }) {
         "Delete this card? \n\n You will not be able to recover it."
       )
     ) {
-      deleteCard(event.target.id).then(() =>
-        listCards(params.deckId).then(setCards)
-      );
+      deleteCard(event.target.id);
     }
   };
 
-  return (
+  return currentDeck.cards ? (
     <div>
       <h5 className={"bg-light p-2"}>
         <Link to="/">Home</Link> / {currentDeck.name}
@@ -52,36 +48,41 @@ function Deck({ currentDeck, setCurrentDeck, cards, setCards, setDecks }) {
       <div className={"d-flex justify-content-between"}>
         <div>
           <button
-            className={"bg-secondary text-white"}
+            className={"bg-secondary text-white btn btn-outline-light"}
             onClick={() => history.push(`/decks/${params.deckId}/edit`)}
           >
             Edit
           </button>
           <button
-            className={"bg-primary text-white"}
+            className={"bg-primary text-white btn btn-outline-light"}
             onClick={() => history.push(`/decks/${params.deckId}/study`)}
           >
             Study
           </button>
           <button
-            className={"bg-primary text-white"}
+            className={"bg-primary text-white btn btn-outline-light"}
             onClick={() => history.push(`/decks/${params.deckId}/cards/new`)}
           >
             Add Cards
           </button>
         </div>
-        <button className={"bg-danger text-white"} onClick={delThisDeck}>
+        <button
+          className={"bg-danger text-white btn btn-outline-light"}
+          onClick={delThisDeck}
+        >
           Delete
         </button>
       </div>
       <h1>Cards</h1>
-      {cards.map((card, index) => (
+      {currentDeck.cards.map((card, index) => (
         <div className={"border"} key={index}>
-          <p>{card.front}</p>
-          <p>{card.back}</p>
+          <div className={"row"}>
+            <p className={"col"}>{card.front}</p>
+            <p className={"col"}>{card.back}</p>
+          </div>
           <div className={"d-flex justify-content-end"}>
             <button
-              className={"bg-secondary text-white"}
+              className={"bg-secondary text-white btn btn-outline-light"}
               onClick={() =>
                 history.push(`/decks/${params.deckId}/cards/${card.id}/edit`)
               }
@@ -89,7 +90,7 @@ function Deck({ currentDeck, setCurrentDeck, cards, setCards, setDecks }) {
               Edit
             </button>
             <button
-              className={"bg-danger text-white"}
+              className={"bg-danger text-white btn btn-outline-light"}
               id={card.id}
               onClick={delThisCard}
             >
@@ -99,7 +100,7 @@ function Deck({ currentDeck, setCurrentDeck, cards, setCards, setDecks }) {
         </div>
       ))}
     </div>
-  );
+  ) : null;
 }
 
 export default Deck;
