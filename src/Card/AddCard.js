@@ -15,7 +15,8 @@ function AddCard({ currentDeck, setCurrentDeck }) {
         <Link to="/">Home</Link>
         {" / "}
         <Link to={`/decks/${params.deckId}`}>{currentDeck.name}</Link>
-        {" / "}Add Card
+        {" / "}
+        <div>Add Card</div>
       </h5>
       <h1>{currentDeck.name}: Add Card</h1>
       <CardForm currentDeck={currentDeck} />

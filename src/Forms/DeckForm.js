@@ -43,7 +43,7 @@ function DeckForm({ currentDeck, setCurrentDeck, setCurrentDeckAmount }) {
       deckName.value = currentDeck.name;
       deckDes.value = currentDeck.description;
     }
-  });
+  }, []);
 
   return (
     <form onSubmit={submitHandler}>
@@ -55,6 +55,7 @@ function DeckForm({ currentDeck, setCurrentDeck, setCurrentDeckAmount }) {
           name="deckName"
           type="text"
           placeholder="Deck Name"
+          value={currentDeck ? currentDeck.name : ""}
           onChange={onChangeHandler}
         ></input>
         <label htmlFor="deckDes">Description</label>
@@ -63,6 +64,7 @@ function DeckForm({ currentDeck, setCurrentDeck, setCurrentDeckAmount }) {
           id="deckDes"
           name="deckDes"
           placeholder="Brief description of the deck"
+          value={currentDeck ? currentDeck.description : ""}
           onChange={onChangeHandler}
         ></textarea>
       </div>
