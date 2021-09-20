@@ -1,22 +1,16 @@
-import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import React from "react";
+import { Link } from "react-router-dom";
 import DeckForm from "../Forms/DeckForm";
 
 function CreateDeck() {
-  const history = useHistory();
-  const [currentDeckAmount, setCurrentDeckAmount] = useState(0);
-
-  if (currentDeckAmount > 0) {
-    history.push(`/decks/${currentDeckAmount}`);
-  }
-
   return (
+    // Render New Deck Form.
     <div>
       <h5 className={"bg-light p-2"}>
         <Link to="/">Home</Link> / Create Deck
       </h5>
       <h1>Create Deck</h1>
-      <DeckForm setCurrentDeckAmount={setCurrentDeckAmount} />
+      <DeckForm />
     </div>
   );
 }

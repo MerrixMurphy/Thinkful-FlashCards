@@ -6,10 +6,13 @@ import { readDeck } from "../utils/api";
 function EditDeck({ currentDeck, setCurrentDeck }) {
   const params = useParams();
 
+  // UseEffect to set current Deck.
   useEffect(() => {
     readDeck(params.deckId).then(setCurrentDeck);
-  }, []);
+  }, [params.deckId, setCurrentDeck]);
+
   return (
+    // Render Edit Deck Form.
     <div>
       <h5 className={"bg-light p-2"}>
         <Link to="/">Home</Link>

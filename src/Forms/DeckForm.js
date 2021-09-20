@@ -2,23 +2,27 @@ import React, { useEffect, useState } from "react";
 import { updateDeck, createDeck, readDeck } from "../utils/api";
 import { useHistory } from "react-router-dom";
 
-function DeckForm({ currentDeck, setCurrentDeck, setCurrentDeckAmount }) {
+function DeckForm({ currentDeck, setCurrentDeck }) {
   const history = useHistory();
-  const [deckUpdate] = useState({});
+  const [deckUpdate, setDeckUpdate] = useState({});
 
+  // A submit handler for the form.
   const submitHandler = (event) => {
     event.preventDefault();
 
+    // If we are editing a deck, set the state of the deckUpdate object to include an id.
     if (currentDeck) {
       deckUpdate.id = currentDeck.id;
     }
 
+    // If we are editing update the deck with the updateDeck state, otherwise create a new deck then push to it.
     currentDeck
       ? updateDeck(deckUpdate)
       : createDeck(deckUpdate).then((response) =>
-          setCurrentDeckAmount(response.id)
+          history.push(`/decks/${response.id}`)
         );
 
+    // If we are editing, read the current deck then set the deck and push to the new Deck page.
     if (currentDeck) {
       readDeck(currentDeck.id)
         .then(setCurrentDeck)
@@ -26,24 +30,22 @@ function DeckForm({ currentDeck, setCurrentDeck, setCurrentDeckAmount }) {
     }
   };
 
+  // An onchange handler that sets the input values when changes are made.
   const onChangeHandler = () => {
     const deckName = document.getElementById("deckName").value;
     const deckDes = document.getElementById("deckDes").value;
-    deckUpdate.name = deckName;
-    deckUpdate.description = deckDes;
+    setDeckUpdate({ name: deckName, description: deckDes });
   };
 
+  // A useEffect to set the value of the inputs to the current deck information.
   useEffect(() => {
-    const deckName = document.getElementById("deckName");
-    const deckDes = document.getElementById("deckDes");
-
     if (currentDeck) {
-      deckUpdate.name = currentDeck.name;
-      deckUpdate.description = currentDeck.description;
-      deckName.value = currentDeck.name;
-      deckDes.value = currentDeck.description;
+      setDeckUpdate({
+        name: currentDeck.name,
+        description: currentDeck.description,
+      });
     }
-  }, []);
+  }, [currentDeck, setDeckUpdate]);
 
   return (
     <form onSubmit={submitHandler}>
@@ -55,7 +57,7 @@ function DeckForm({ currentDeck, setCurrentDeck, setCurrentDeckAmount }) {
           name="deckName"
           type="text"
           placeholder="Deck Name"
-          value={currentDeck ? currentDeck.name : ""}
+          value={deckUpdate.name ? deckUpdate.name : ""}
           onChange={onChangeHandler}
         ></input>
         <label htmlFor="deckDes">Description</label>
@@ -64,12 +66,13 @@ function DeckForm({ currentDeck, setCurrentDeck, setCurrentDeckAmount }) {
           id="deckDes"
           name="deckDes"
           placeholder="Brief description of the deck"
-          value={currentDeck ? currentDeck.description : ""}
+          value={deckUpdate.description ? deckUpdate.description : ""}
           onChange={onChangeHandler}
         ></textarea>
       </div>
       <button
         className={"bg-secondary text-white btn btn-outline-light"}
+        type="button"
         onClick={() => history.push("/")}
       >
         Cancel

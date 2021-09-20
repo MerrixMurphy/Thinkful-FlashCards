@@ -8,7 +8,7 @@ function AddCard({ currentDeck, setCurrentDeck }) {
 
   useEffect(() => {
     readDeck(params.deckId).then(setCurrentDeck);
-  }, []);
+  }, [params.deckId, setCurrentDeck]);
   return (
     <div>
       <h5 className={"bg-light p-2"}>

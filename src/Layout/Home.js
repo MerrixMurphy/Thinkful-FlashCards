@@ -5,10 +5,12 @@ import { listDecks, deleteDeck } from "../utils/api";
 function Home({ decks, setDecks }) {
   const history = useHistory();
 
+  // UseEffect to set the Decks state equal to all Decks.
   useEffect(() => {
     listDecks().then(setDecks);
-  }, []);
+  }, [setDecks]);
 
+  // An onclick navigation function that uses element values to Render a new page based on said values.
   const navigation = (event) => {
     const butId = event.target.id;
     const butVal = event.target.value;
@@ -26,6 +28,7 @@ function Home({ decks, setDecks }) {
     }
   };
 
+  // An onclick handler to Delete A deck.
   const delThisDeck = (event) => {
     if (
       window.confirm(
@@ -37,6 +40,7 @@ function Home({ decks, setDecks }) {
   };
 
   return (
+    // Grabs information for each Deck and lists them appropriately.
     <div>
       <button
         className={"bg-secondary text-white btn btn-outline-light"}

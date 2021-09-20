@@ -11,10 +11,12 @@ import EditCard from "../Card/EditCard";
 import Deck from "../Deck/Deck";
 
 function Layout() {
+  // states to track current card and deck.
   const [currentDeck, setCurrentDeck] = useState([]);
+  const [currentCard, setCurrentCard] = useState([]);
+  // states to track card and deck lists
   const [cards, setCards] = useState([]);
   const [decks, setDecks] = useState([]);
-  const [currentCard, setCurrentCard] = useState([]);
 
   return (
     <div>

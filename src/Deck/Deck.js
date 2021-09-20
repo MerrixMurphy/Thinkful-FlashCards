@@ -1,21 +1,17 @@
 import React, { useEffect } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
-import {
-  deleteCard,
-  deleteDeck,
-  listCards,
-  readDeck,
-  listDecks,
-} from "../utils/api";
+import { deleteCard, deleteDeck, readDeck, listDecks } from "../utils/api";
 
 function Deck({ currentDeck, setCurrentDeck, setDecks }) {
   const history = useHistory();
   const params = useParams();
 
+  // UseEffect to set current Deck.
   useEffect(() => {
     readDeck(params.deckId).then(setCurrentDeck);
-  }, []);
+  }, [params.deckId, setCurrentDeck]);
 
+  // An onclick handler to delete current Deck.
   const delThisDeck = () => {
     if (
       window.confirm(
@@ -28,17 +24,21 @@ function Deck({ currentDeck, setCurrentDeck, setDecks }) {
     }
   };
 
+  // An onclick handler to delete specific cards.
   const delThisCard = (event) => {
     if (
       window.confirm(
         "Delete this card? \n\n You will not be able to recover it."
       )
     ) {
-      deleteCard(event.target.id);
+      deleteCard(event.target.id).then(() =>
+        readDeck(params.deckId).then(setCurrentDeck)
+      );
     }
   };
 
   return currentDeck.cards ? (
+    // Render Deck information and a list of each card.
     <div>
       <h5 className={"bg-light p-2"}>
         <Link to="/">Home</Link> / {currentDeck.name}
