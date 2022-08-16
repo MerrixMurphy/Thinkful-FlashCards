@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { updateDeck, createDeck, readDeck } from "../utils/api";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function DeckForm({ currentDeck, setCurrentDeck }) {
-  const history = useHistory();
+  const history = useNavigate();
   const [deckUpdate, setDeckUpdate] = useState({});
 
   // A submit handler for the form.
@@ -19,14 +19,14 @@ function DeckForm({ currentDeck, setCurrentDeck }) {
     currentDeck
       ? updateDeck(deckUpdate)
       : createDeck(deckUpdate).then((response) =>
-          history.push(`/decks/${response.id}`)
+          history(`/decks/${response.id}`)
         );
 
     // If we are editing, read the current deck then set the deck and push to the new Deck page.
     if (currentDeck) {
       readDeck(currentDeck.id)
         .then(setCurrentDeck)
-        .then(() => history.push(`/decks/${currentDeck.id}`));
+        .then(() => history(`/decks/${currentDeck.id}`));
     }
   };
 
@@ -73,7 +73,7 @@ function DeckForm({ currentDeck, setCurrentDeck }) {
       <button
         className={"bg-secondary text-white btn btn-outline-light"}
         type="button"
-        onClick={() => history.push("/")}
+        onClick={() => history("/")}
       >
         Cancel
       </button>

@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router";
 import { listDecks, deleteDeck } from "../utils/api";
 
 function Home({ decks, setDecks }) {
-  const history = useHistory();
+  const history = useNavigate();
 
   // UseEffect to set the Decks state equal to all Decks.
   useEffect(() => {
@@ -16,14 +16,14 @@ function Home({ decks, setDecks }) {
     const butVal = event.target.value;
     switch (butId) {
       case `createDeck`:
-        history.push("/decks/new");
+        history("/decks/new");
         break;
       case `view`:
-        history.push(`/decks/${butVal}`);
+        history(`/decks/${butVal}`);
         break;
       case `study`:
       default:
-        history.push(`/decks/${butVal}/study`);
+        history(`/decks/${butVal}/study`);
         break;
     }
   };

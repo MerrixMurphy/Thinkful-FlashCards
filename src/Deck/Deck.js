@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
-import { Link, useHistory, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { deleteCard, deleteDeck, readDeck, listDecks } from "../utils/api";
 
 function Deck({ currentDeck, setCurrentDeck, setDecks }) {
-  const history = useHistory();
+  const history = useNavigate();
   const params = useParams();
 
   // UseEffect to set current Deck.
@@ -20,7 +20,7 @@ function Deck({ currentDeck, setCurrentDeck, setDecks }) {
     ) {
       deleteDeck(params.deckId).then(() => listDecks().then(setDecks));
       setCurrentDeck([]);
-      history.push("/");
+      history("/");
     }
   };
 
@@ -49,19 +49,19 @@ function Deck({ currentDeck, setCurrentDeck, setDecks }) {
         <div>
           <button
             className={"bg-secondary text-white btn btn-outline-light"}
-            onClick={() => history.push(`/decks/${params.deckId}/edit`)}
+            onClick={() => history(`/decks/${params.deckId}/edit`)}
           >
             Edit
           </button>
           <button
             className={"bg-primary text-white btn btn-outline-light"}
-            onClick={() => history.push(`/decks/${params.deckId}/study`)}
+            onClick={() => history(`/decks/${params.deckId}/study`)}
           >
             Study
           </button>
           <button
             className={"bg-primary text-white btn btn-outline-light"}
-            onClick={() => history.push(`/decks/${params.deckId}/cards/new`)}
+            onClick={() => history(`/decks/${params.deckId}/cards/new`)}
           >
             Add Cards
           </button>
@@ -84,7 +84,7 @@ function Deck({ currentDeck, setCurrentDeck, setDecks }) {
             <button
               className={"bg-secondary text-white btn btn-outline-light"}
               onClick={() =>
-                history.push(`/decks/${params.deckId}/cards/${card.id}/edit`)
+                history(`/decks/${params.deckId}/cards/${card.id}/edit`)
               }
             >
               Edit

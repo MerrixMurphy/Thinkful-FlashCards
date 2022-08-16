@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Link, useHistory, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { readDeck } from "../utils/api";
 
 function Study({ currentDeck, setCurrentDeck }) {
-  const history = useHistory();
+  const history = useNavigate();
   const params = useParams();
 
   // states to track which side for the study card and which number in the deck.
@@ -34,7 +34,7 @@ function Study({ currentDeck, setCurrentDeck }) {
         setSideTracker("front");
         setCardTracker(0);
       } else {
-        history.push("/");
+        history("/");
       }
     }
   };
@@ -89,7 +89,7 @@ function Study({ currentDeck, setCurrentDeck }) {
           </p>
           <button
             className={"bg-primary text-white btn btn-outline-light"}
-            onClick={() => history.push(`/decks/${currentDeck.id}/cards/new`)}
+            onClick={() => history(`/decks/${currentDeck.id}/cards/new`)}
           >
             Add Cards
           </button>

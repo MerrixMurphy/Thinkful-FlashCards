@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useHistory, useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { createCard, updateCard, readCard } from "../utils/api";
 
 function CardForm({ currentDeck, currentCard, setCurrentCard }) {
-  const history = useHistory();
+  const history = useNavigate();
   const params = useParams();
 
   // Create constants of the current url params.
@@ -32,7 +32,7 @@ function CardForm({ currentDeck, currentCard, setCurrentCard }) {
 
     // Finally if we are editing, take us to the deck with the card in it, or else update the values of the input elements to be blank.
     if (currentCard) {
-      history.push(`/decks/${currentDeckParam}`);
+      history(`/decks/${currentDeckParam}`);
     } else {
       const cardFront = document.getElementById("cardFront");
       const cardBack = document.getElementById("cardBack");
@@ -86,7 +86,7 @@ function CardForm({ currentDeck, currentCard, setCurrentCard }) {
       <button
         className={"bg-secondary text-white btn btn-outline-light"}
         type="button"
-        onClick={() => history.push(`/decks/${params.deckId}`)}
+        onClick={() => history(`/decks/${params.deckId}`)}
       >
         {currentCard ? "Cancel" : "Done"}
       </button>
