@@ -2,7 +2,8 @@
  * Defines the base URL for the API.
  * The default values is overridden by the `API_BASE_URL` environment variable.
  */
-const API_BASE_URL = process.env.API_BASE_URL || "http://localhost:5000";
+const { REACT_APP_API_BASE_URL = "http://localhost:5000" } = process.env;
+const API_BASE_URL = REACT_APP_API_BASE_URL;
 
 /**
  * Defines the default headers for these functions to work with `json-server`
